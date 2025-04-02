@@ -1,20 +1,24 @@
-spring.application.name: similar-products
+spring:
+  application:
+    name: similar-products
+  server:
+    port: 5000
 
 resilience4j:
   circuitbreaker:
     instances:
       productApi:
-        slidingWindowSize: 5           # Monitor the last 5 requests
-        minimumNumberOfCalls: 3        # Minimum calls before evaluating failure rate
-        failureRateThreshold: 50       # Open circuit if >50% requests fail
-        waitDurationInOpenState: 10s   # Time before retrying
-        permittedNumberOfCallsInHalfOpenState: 2  # Calls in half-open state
-        recordExceptions:
-          - com.raulsierra.similarproducts.domain.exception.ExternalServiceException
+      slidingWindowSize: 5           # Monitor the last 5 requests
+      minimumNumberOfCalls: 3        # Minimum calls before evaluating failure rate
+      failureRateThreshold: 50       # Open circuit if >50% requests fail
+      waitDurationInOpenState: 10s   # Time before retrying
+      permittedNumberOfCallsInHalfOpenState: 2  # Calls in half-open state
+      recordExceptions:
+        - com.raulsierra.similarproducts.domain.exception.ExternalServiceException
   retry:
     instances:
       productApi:
-        maxAttempts: 3
-        waitDuration: 100
-        retryExceptions:
-          - com.raulsierra.similarproducts.domain.exception.ExternalServiceException
+      maxAttempts: 3
+      waitDuration: 100
+      retryExceptions:
+        - com.raulsierra.similarproducts.domain.exception.ExternalServiceException
