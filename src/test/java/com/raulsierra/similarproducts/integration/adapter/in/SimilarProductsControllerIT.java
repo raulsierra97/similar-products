@@ -50,6 +50,7 @@ class SimilarProductsControllerIT {
                 new ProductDetail("4", "Boots", 39.99, true)
         );
 
+        // Product 1 has similar products, so the endpoint return the list of product details correctly
         webTestClient.get()
                 .uri("/product/1/similar")
                 .accept(MediaType.APPLICATION_JSON)
@@ -59,21 +60,21 @@ class SimilarProductsControllerIT {
                 .returnResult(ProductDetail.class)
                 .getResponseBody()
                 .as(StepVerifier::create)
-                .expectNextSequence(expectedProducts)
+                .expectNextMatches(expectedProducts::contains)
+                .expectNextMatches(expectedProducts::contains)
+                .expectNextMatches(expectedProducts::contains)
                 .verifyComplete();
     }
 
     @Test
-    void getSimilarProducts_shouldReturnEmptyListWhenSimilarIdsNotFound() {
+    void getSimilarProducts_shouldReturnErrorWhenSimilarIdsNotFound() {
+        // Product 99 returns 404 because has no similar products
         webTestClient.get()
-                .uri("/product/6/similar")
+                .uri("/product/99/similar")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .returnResult(ProductDetail.class)
-                .getResponseBody()
-                .as(StepVerifier::create)
-                .expectComplete();
+                .expectStatus().is4xxClientError()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON);
     }
+
 }

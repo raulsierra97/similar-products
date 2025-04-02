@@ -1,6 +1,8 @@
 package com.raulsierra.similarproducts.infrastructure.adapter.out;
 
 
+import com.raulsierra.similarproducts.domain.exception.ProductDetailNotFoundException;
+import com.raulsierra.similarproducts.domain.exception.SimilarProductsNotFoundException;
 import com.raulsierra.similarproducts.domain.model.ProductDetail;
 import com.raulsierra.similarproducts.domain.model.ProductId;
 import org.junit.jupiter.api.Test;
@@ -54,19 +56,20 @@ class ProductDetailRestAdapterTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    void getProductDetail_shouldReturnNullWhenBodyIsNull() {
+    void getProductDetail_shouldReturnNullWhen404() {
         // Arrange
         ProductId productId = new ProductId("1");
 
         when(webClientMock.get()).thenReturn(requestHeadersUriSpecMock);
         when(requestHeadersUriSpecMock.uri("/product/{productId}", "1")).thenReturn(requestHeadersSpecMock);
         when(requestHeadersSpecMock.retrieve()).thenReturn(responseSpecMock);
-        when(responseSpecMock.bodyToMono(ProductDetail.class)).thenReturn(Mono.empty());
+        when(responseSpecMock.bodyToMono(ProductDetail.class))
+                .thenReturn(Mono.error(new ProductDetailNotFoundException("Product detail not found", null)));
 
         Mono<ProductDetail> result = productDetailRestAdapter.getProductDetail(productId);
 
-        // Verifies that the mono completes without emitting any element.
         StepVerifier.create(result)
-                .verifyComplete();
+                .expectErrorMatches(throwable -> throwable instanceof ProductDetailNotFoundException)
+                .verify();
     }
 }

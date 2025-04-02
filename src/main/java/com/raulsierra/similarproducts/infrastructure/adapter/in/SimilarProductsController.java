@@ -25,6 +25,8 @@ public class SimilarProductsController {
      * Uses Flux to stream product recommendations asynchronously, allowing:
      * - Non-blocking processing of multiple results
      * - Immediate delivery of each recommendation as it's available
+     * When product has similar products, returns a list of product details
+     * When product don't have similar products, returns a 404 Not Found intentionally
      */
     @GetMapping
     public ResponseEntity<Flux<ProductDetail>> getSimilarProducts(@PathVariable String productId) {
