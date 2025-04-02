@@ -16,7 +16,7 @@ import reactor.test.StepVerifier;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +38,7 @@ class SimilarProductsControllerTest {
         ResponseEntity<Flux<ProductDetail>> response = similarProductsController.getSimilarProducts("1");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         StepVerifier.create(response.getBody())
                 .expectNextCount(2)
                 .expectComplete()
