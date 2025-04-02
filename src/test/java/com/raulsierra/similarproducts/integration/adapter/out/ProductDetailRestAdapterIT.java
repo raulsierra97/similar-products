@@ -1,6 +1,8 @@
 package com.raulsierra.similarproducts.integration.adapter.out;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.raulsierra.similarproducts.domain.exception.ExternalServiceException;
+import com.raulsierra.similarproducts.domain.exception.ProductDetailNotFoundException;
 import com.raulsierra.similarproducts.domain.model.ProductDetail;
 import com.raulsierra.similarproducts.domain.model.ProductId;
 import com.raulsierra.similarproducts.infrastructure.adapter.out.ProductDetailRestAdapter;
@@ -28,9 +30,9 @@ class ProductDetailRestAdapterIT {
 
     @BeforeEach
     void setUp() {
-        wireMockServer = new WireMockServer(8089);
+        wireMockServer = new WireMockServer(3001);
         wireMockServer.start();
-        configureFor("localhost", 8089);
+        configureFor("localhost", 3001);
     }
 
     @AfterEach
@@ -42,8 +44,7 @@ class ProductDetailRestAdapterIT {
     void getProductDetail_shouldReturnProductDetail() {
         // Arrange
         ProductId productId = new ProductId("1");
-        ProductDetail expectedProduct = new ProductDetail();
-        expectedProduct.setName("Shirt");
+        ProductDetail expectedProduct = new ProductDetail("1", "Shirt", 9.99, true);
 
         Mono<ProductDetail> result = productDetailRestAdapter.getProductDetail(productId);
 
@@ -55,7 +56,7 @@ class ProductDetailRestAdapterIT {
     }
 
     @Test
-    void getProductDetail_shouldReturnNullWhenApiReturn404() {
+    void getProductDetail_shouldReturnErrorWhenApiReturn404() {
         // Arrange
         ProductId productId = new ProductId("5");
 
@@ -63,13 +64,14 @@ class ProductDetailRestAdapterIT {
 
         // Verifies that the flux completes without emitting any elements.
         StepVerifier.create(result)
-                .verifyComplete();
+                .expectErrorMatches(throwable -> throwable instanceof ProductDetailNotFoundException)
+                .verify();
 
         verify(getRequestedFor(urlEqualTo("/product/5")));
     }
 
     @Test
-    void getProductDetail_shouldReturnNullWhenApiReturn500() {
+    void getProductDetail_shouldReturnErrorWhenApiReturn500() {
         // Arrange
         ProductId productId = new ProductId("6");
 
@@ -77,22 +79,9 @@ class ProductDetailRestAdapterIT {
 
         // Verifies that the flux completes without emitting any elements.
         StepVerifier.create(result)
-                .verifyComplete();
+                .expectErrorMatches(throwable -> throwable instanceof ExternalServiceException)
+                .verify();
 
         verify(getRequestedFor(urlEqualTo("/product/6")));
-    }
-
-    @Test
-    void getProductDetail_shouldReturnNullWhenBodyIsInvalid() {
-        // Arrange
-        ProductId productId = new ProductId("7");
-
-        Mono<ProductDetail> result = productDetailRestAdapter.getProductDetail(productId);
-
-        // Verifies that the flux completes without emitting any elements.
-        StepVerifier.create(result)
-                .verifyComplete();
-
-        verify(getRequestedFor(urlEqualTo("/product/7")));
     }
 }

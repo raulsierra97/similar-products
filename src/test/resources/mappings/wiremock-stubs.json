@@ -1,0 +1,199 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/1/similarids"
+      },
+      "response": {
+        "status": 200,
+        "body": "[\"2\", \"3\", \"4\"]",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/2/similarids"
+      },
+      "response": {
+        "status": 200,
+        "body": "[3,100,1000]",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/3/similarids"
+      },
+      "response": {
+        "status": 200,
+        "body": "[100,1000,10000]",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/4/similarids"
+      },
+      "response": {
+        "status": 200,
+        "body": "[1,2,5]",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/5/similarids"
+      },
+      "response": {
+        "status": 200,
+        "body": "[1,2,6]",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/99/similarids"
+      },
+      "response": {
+        "status": 404,
+        "body": "{\"message\":\"Similar products not found\"}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/1"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"id\":\"1\",\"name\":\"Shirt\",\"price\":9.99,\"availability\":true}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/2"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"id\":\"2\",\"name\":\"Dress\",\"price\":19.99,\"availability\":true}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/3"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"id\":\"3\",\"name\":\"Blazer\",\"price\":29.99,\"availability\":false}",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "fixedDelayMilliseconds": 100
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/4"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"id\":\"4\",\"name\":\"Boots\",\"price\":39.99,\"availability\":true}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/5"
+      },
+      "response": {
+        "status": 404,
+        "body": "{\"message\":\"Product not found\"}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/6"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/100"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"id\":\"100\",\"name\":\"Trousers\",\"price\":49.99,\"availability\":false}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/1000"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"id\":\"1000\",\"name\":\"Coat\",\"price\":89.99,\"availability\":true}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/product/10000"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"id\":\"10000\",\"name\":\"Leather jacket\",\"price\":89.99,\"availability\":true}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 package com.raulsierra.similarproducts.integration.adapter.out;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.raulsierra.similarproducts.domain.exception.SimilarProductsNotFoundException;
 import com.raulsierra.similarproducts.domain.model.ProductId;
 import com.raulsierra.similarproducts.infrastructure.adapter.out.SimilarProductIdsRestAdapter;
 import org.junit.jupiter.api.AfterEach;
@@ -27,9 +28,9 @@ class SimilarProductIdsRestAdapterIT {
 
     @BeforeEach
     void setUp() {
-        wireMockServer = new WireMockServer(8089);
+        wireMockServer = new WireMockServer(3001);
         wireMockServer.start();
-        configureFor("localhost", 8089);
+        configureFor("localhost", 3001);
     }
 
     @AfterEach
@@ -53,38 +54,18 @@ class SimilarProductIdsRestAdapterIT {
     }
 
     @Test
-    void getSimilarProductIds_shouldReturnEmptyListWhenApiReturn404() {
-        ProductId productId = new ProductId("5");
+    void getSimilarProductIds_shouldReturnErrorWhenApiReturn404() {
+        ProductId productId = new ProductId("99");
 
         Flux<ProductId> result = similarProductsIdsRestAdapter.getSimilarProductIds(productId);
 
         // Verifies that the flux completes without emitting any elements.
-        StepVerifier.create(result).verifyComplete();
+        StepVerifier.create(result)
+                .expectErrorMatches(throwable -> throwable instanceof SimilarProductsNotFoundException)
+                .verify();
 
-        verify(getRequestedFor(urlEqualTo("/product/5/similarids")));
+        verify(getRequestedFor(urlEqualTo("/product/99/similarids")));
     }
 
-    @Test
-    void getSimilarProductIds_shouldReturnEmptyListWhenApiReturn500() {
-        ProductId productId = new ProductId("6");
 
-        Flux<ProductId> result = similarProductsIdsRestAdapter.getSimilarProductIds(productId);
-
-        // Verifies that the flux completes without emitting any elements.
-        StepVerifier.create(result).verifyComplete();
-
-        verify(getRequestedFor(urlEqualTo("/product/6/similarids")));
-    }
-
-    @Test
-    void getSimilarProductIds_shouldReturnEmptyListWhenBodyIsInvalid() {
-        ProductId productId = new ProductId("7");
-
-        Flux<ProductId> result = similarProductsIdsRestAdapter.getSimilarProductIds(productId);
-
-        // Verifies that the flux completes without emitting any elements.
-        StepVerifier.create(result).verifyComplete();
-
-        verify(getRequestedFor(urlEqualTo("/product/7/similarids")));
-    }
 }

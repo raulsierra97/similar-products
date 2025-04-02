@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.util.Arrays;
@@ -45,7 +44,7 @@ class SimilarProductIdsRestAdapterTest {
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri("/product/{productId}/similarids", "1")).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToFlux(String.class).collectList()).thenReturn(Mono.just(ids));
+        when(responseSpec.bodyToFlux(String.class)).thenReturn(Flux.fromIterable(ids));
 
         Flux<ProductId> result = similarProductsIdsRestAdapter.getSimilarProductIds(productId);
 
@@ -64,7 +63,7 @@ class SimilarProductIdsRestAdapterTest {
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri("/product/{productId}/similarids", "1")).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToFlux(String.class).collectList()).thenReturn(Mono.empty());
+        when(responseSpec.bodyToFlux(String.class)).thenReturn(Flux.empty());
 
         // Act
         Flux<ProductId> result = similarProductsIdsRestAdapter.getSimilarProductIds(productId);

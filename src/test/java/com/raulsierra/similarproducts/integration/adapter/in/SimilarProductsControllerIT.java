@@ -7,7 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -17,8 +17,8 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@AutoConfigureWebTestClient
 class SimilarProductsControllerIT {
 
     @Autowired
@@ -31,9 +31,9 @@ class SimilarProductsControllerIT {
 
     @BeforeEach
     void setUp() {
-        wireMockServer = new WireMockServer(8089);
+        wireMockServer = new WireMockServer(3001);
         wireMockServer.start();
-        configureFor("localhost", 8089);
+        configureFor("localhost", 3001);
     }
 
     @AfterEach

@@ -9,8 +9,12 @@ resilience4j:
         failureRateThreshold: 50       # Open circuit if >50% requests fail
         waitDurationInOpenState: 10s   # Time before retrying
         permittedNumberOfCallsInHalfOpenState: 2  # Calls in half-open state
+        recordExceptions:
+          - com.raulsierra.similarproducts.domain.exception.ExternalServiceException
   retry:
     instances:
       productApi:
         maxAttempts: 3
         waitDuration: 100
+        retryExceptions:
+          - com.raulsierra.similarproducts.domain.exception.ExternalServiceException
