@@ -17,7 +17,7 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
 class SimilarProductsControllerIT {
 
