@@ -42,7 +42,7 @@ class SimilarProductsControllerIT {
     }
 
     @Test
-    void getSimilarProducts_shouldReturnOkWithProductDetails() throws Exception {
+    void getSimilarProducts_shouldReturnOkWithProductDetails() {
 
         List<ProductDetail> expectedProducts = List.of(
                 new ProductDetail("2", "Dress", 19.99, true),

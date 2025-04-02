@@ -20,6 +20,8 @@ public class GetSimilarProductsService implements GetSimilarProductsUseCase {
     private final SimilarProductIdsPort similarProductsIdsPort;
     private final ProductDetailPort productDetailPort;
 
+
+    //First a call to get all the similar product ids and then one call for each id to get product details
     @Override
     public Flux<ProductDetail> getSimilarProducts(ProductId productId) {
         return similarProductsIdsPort.getSimilarProductIds(productId)

@@ -32,7 +32,6 @@ class GetSimilarProductsServiceTest {
 
     @Test
     void getSimilarProducts_shouldReturnProductDetails() {
-        // Arrange
         ProductId productId = new ProductId("1");
         List<ProductId> similarIds = List.of(new ProductId("2"), new ProductId("3"));
         ProductDetail productDetail1 = new ProductDetail("2", "Product 2", 15.0, true);
@@ -42,10 +41,8 @@ class GetSimilarProductsServiceTest {
         when(productDetailPort.getProductDetail(new ProductId("2"))).thenReturn(Mono.just(productDetail1));
         when(productDetailPort.getProductDetail(new ProductId("3"))).thenReturn(Mono.just(productDetail2));
 
-        // Act
         Flux<ProductDetail> result = getSimilarProductsService.getSimilarProducts(productId);
 
-        // Assert
         StepVerifier.create(result)
                 .expectNext(productDetail1) // Primer producto
                 .expectNext(productDetail2)

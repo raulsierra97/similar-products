@@ -34,7 +34,7 @@ public class SimilarProductIdsRestAdapter implements SimilarProductIdsPort {
     @Retry(name = "productApi")
     @Override
     public Flux<ProductId> getSimilarProductIds(ProductId productId) {
-        // Lógica para llamar a la API externa de IDs de productos similares.
+        // Logic for calling the external API for similar product IDs.
         return webClient.get()
                 .uri("/product/{productId}/similarids", productId.getId())
                 .retrieve()

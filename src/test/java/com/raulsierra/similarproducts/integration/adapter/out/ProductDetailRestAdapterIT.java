@@ -42,7 +42,6 @@ class ProductDetailRestAdapterIT {
 
     @Test
     void getProductDetail_shouldReturnProductDetail() {
-        // Arrange
         ProductId productId = new ProductId("1");
         ProductDetail expectedProduct = new ProductDetail("1", "Shirt", 9.99, true);
 
@@ -57,7 +56,6 @@ class ProductDetailRestAdapterIT {
 
     @Test
     void getProductDetail_shouldReturnErrorWhenApiReturn404() {
-        // Arrange
         ProductId productId = new ProductId("5");
 
         Mono<ProductDetail> result = productDetailRestAdapter.getProductDetail(productId);
@@ -72,7 +70,6 @@ class ProductDetailRestAdapterIT {
 
     @Test
     void getProductDetail_shouldReturnErrorWhenApiReturn500() {
-        // Arrange
         ProductId productId = new ProductId("6");
 
         Mono<ProductDetail> result = productDetailRestAdapter.getProductDetail(productId);

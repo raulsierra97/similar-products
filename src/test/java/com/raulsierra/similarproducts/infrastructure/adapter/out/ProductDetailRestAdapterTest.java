@@ -2,7 +2,6 @@ package com.raulsierra.similarproducts.infrastructure.adapter.out;
 
 
 import com.raulsierra.similarproducts.domain.exception.ProductDetailNotFoundException;
-import com.raulsierra.similarproducts.domain.exception.SimilarProductsNotFoundException;
 import com.raulsierra.similarproducts.domain.model.ProductDetail;
 import com.raulsierra.similarproducts.domain.model.ProductId;
 import org.junit.jupiter.api.Test;
