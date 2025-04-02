@@ -1,0 +1,16 @@
+spring.application.name: similar-products
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      productApi:
+        slidingWindowSize: 5           # Monitor the last 5 requests
+        minimumNumberOfCalls: 3        # Minimum calls before evaluating failure rate
+        failureRateThreshold: 50       # Open circuit if >50% requests fail
+        waitDurationInOpenState: 10s   # Time before retrying
+        permittedNumberOfCallsInHalfOpenState: 2  # Calls in half-open state
+  retry:
+    instances:
+      productApi:
+        maxAttempts: 3
+        waitDuration: 100
